@@ -1,0 +1,386 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% This is a simple template for a LaTeX document using the "article" class.
+% See "book", "report", "letter" for other types of document.
+
+\documentclass[11pt]{article} % use larger type; default would be 10pt
+
+\usepackage[utf8]{inputenc} % set input encoding (not needed with XeLaTeX)
+
+%%% Examples of Article customizations
+% These packages are optional, depending whether you want the features they provide.
+% See the LaTeX Companion or other references for full information.
+
+%%% PAGE DIMENSIONS
+\usepackage{geometry} % to change the page dimensions
+\geometry{a4paper} % or letterpaper (US) or a5paper or....
+% \geometry{margin=2in} % for example, change the margins to 2 inches all round
+% \geometry{landscape} % set up the page for landscape
+%   read geometry.pdf for detailed page layout information
+
+\usepackage{graphicx} % support the \includegraphics command and options
+
+% \usepackage[parfill]{parskip} % Activate to begin paragraphs with an empty line rather than an indent
+
+%%% PACKAGES
+\usepackage{booktabs} % for much better looking tables
+\usepackage{array} % for better arrays (eg matrices) in maths
+\usepackage{paralist} % very flexible & customisable lists (eg. enumerate/itemize, etc.)
+\usepackage{verbatim} % adds environment for commenting out blocks of text & for better verbatim
+\usepackage{subfig} % make it possible to include more than one captioned figure/table in a single float
+\usepackage{algorithmic} % For pseudocode
+% These packages are all incorporated in the memoir class to one degree or another...
+
+%%% HEADERS & FOOTERS
+\usepackage{fancyhdr} % This should be set AFTER setting up the page geometry
+\pagestyle{fancy} % options: empty , plain , fancy
+\renewcommand{\headrulewidth}{0pt} % customise the layout...
+\lhead{\textit{CS26110 Assignment - 8 Puzzle}}\chead{}\rhead{\textit{Laura Collins (lac32)}}
+\lfoot{}\cfoot{\thepage}\rfoot{}
+
+%%% SECTION TITLE APPEARANCE
+\usepackage{sectsty}
+\allsectionsfont{\sffamily\mdseries\upshape} % (See the fntguide.pdf for font help)
+% (This matches ConTeXt defaults)
+
+%%% ToC (table of contents) APPEARANCE
+\usepackage[nottoc,notlof,notlot]{tocbibind} % Put the bibliography in the ToC
+\usepackage[titles,subfigure]{tocloft} % Alter the style of the Table of Contents
+\renewcommand{\cftsecfont}{\rmfamily\mdseries\upshape}
+\renewcommand{\cftsecpagefont}{\rmfamily\mdseries\upshape} % No bold!
+
+%%% END Article customizations
+
+%%% The "real" document content comes below...
+
+
+\begin{document}
+	\begin{titlepage}
+		\begin{center}
+
+
+		 ~ \\[0.4cm]
+
+		\begin{figure}[ht!]
+			\centering
+			\includegraphics[height=20mm]{Images/8puzzle}
+			\label{overflow}
+		\end{figure} ~ \\[0.4cm]
+
+
+
+		\bfseries{\LARGE{CS26110 - Artificial Intelligence Assignment}} \\[0.5cm]
+
+		\Large{8-Puzzle}\\[1cm]
+
+		\Large{Author: Laura Collins (lac32)}\\[0.5cm]
+
+		\Large {Date last edited: \today} \\[0.5cm]
+
+		\Large {Word Count: 2658}
+
+		\end{center}
+	\end{titlepage}
+
+\newpage
+	\tableofcontents
+
+	\newpage
+		\section{Section 1}
+	
+			\subsection{Analysis}
+	
+				\subsubsection{The Problem}
+	
+					The Problem presented in this Assignment is to make a Java Program that can solve 8-Puzzles using three different AI techniques, Breadth-First Search, Depth-First Search and A* Search. 3 sets of Testing Data files have been supplied and the program should be tested using these, and any extra files I may wish to run myself.
+	
+				\subsubsection{How I approached this problem}
+	
+					My first step after reading the Assignment Specification was to research into Queues and Stacks as they're not something I've had to implement before. Another one of my Modules, CS21120 covers both of these, so I thought that would be a good place to start, and on top of that some research online, especially on the Java 7 API. Next step I started implementing a GUI for the 8-puzzle, but upon reading the Specification again realised this was unnecessary, and stopped.
+	
+					Each number is read in as an integer, as 0 is used instead of a blank space, meaning reading in was quick and simple. When loaded in, the integers are added into an array, the StartState, and the Solution (or Goal State) was also read in in the same way.
+	
+					Once the Start State and Goal State have been read in, they can be used to implement the three different methods of search required to be used in this assignment as if they are equal, the puzzle is therefore solved.
+	
+					Each AI Search Technique (BFS, DFS, Manhattan Distance \& Hamming Distance) has a Class of it's own, which, upon reflection, uses a lot of the same methods to run the Searches, so could be refined further.
+	
+	\newpage
+		\subsection{Design}
+	
+			\subsubsection{Class Diagram}
+	
+				\begin{figure}[ht!]
+					\centering
+					\includegraphics[height=160mm]{Images/class_diagram3}
+					\label{overflow}
+					\caption{Version 2.1 Final}
+				\end{figure}
+	
+	\newpage
+		\subsubsection{Class Descriptions}
+			\setlength{\parindent}{0pt} % Default is 15pt
+	
+			\textbf{Solve}
+	
+			Solve is a simple Class running the entire Project by instantiating a new instance of whichever AI Technique has been specified by the user. This is the Class to be run when the user is using the Command Line/Terminal.
+	
+			\hspace{0pt} \\
+			\textbf{Board}
+	
+			The Board Class compromises mainly of methods to set the Values in the grid and return these said values afterwards. This is basically the content of the puzzle, setting out the layout, dealing with the Setting and Getting of the Heuristic Integer when using A*Search, and also for calculating the amount of moves needed to get from the Start State to the Goal State.
+	
+			\hspace{0pt} \\
+			\textbf{BFS}
+	
+			This Class is where the Breadth-First Search is run. This works by loading in the files at the start of the Class, and while the first-most node in the 'toCheck' queue is not equal to the Goal State, the Blank Space is moved around (up, down, left, right) with each node being added to the 'toCheck' queue and then being evaluated and added to the 'checked' ArrayList if still not equal to the goal. If no solution is found, the message 'No Solution Found' is displayed.
+	
+			\setlength{\parindent}{15pt} % Default is 15pt
+			Breadth-first works by going along a height in a Tree, exploring each of these nodes first, before expanding the next height of nodes down and exploring them etc. This is an Complete Search technique, as if the solution is in the Tree, it \textit{shall} be found. It has a Space Requirement and Time Complexity of \begin{math} O(b^d) \end{math} - \textit{Where b is the maximum number of successors of any node and d is the depth of the shallowest goal.}
+	
+			\setlength{\parindent}{0pt} % Default is 15pt
+			\hspace{0pt} \\
+			\textbf{DFS}
+	
+			This Class is where the Depth-First Search is run. This works similarly to BFS, except instead of using Queues, it uses a Stack to store the nodes, so when it's being explored, it's done in a different way, by opening all Child nodes before opening other Parent nodes. If no solution is found, the message 'No Solution Found' is displayed.
+	
+			\setlength{\parindent}{15pt} % Default is 15pt
+	Depth-First works by opening the first Parent node, and exploring all of it's children before moving along to the next Parent node on the same height. However DFS has some issues, it can get stuck down one path, never finding the solution, therefore is not Complete and if the Tree is extremely deep, it can take a very long time to actually get any solution. It has a Space Requirement of \begin{math} O(bm) \end{math} and a Time Complexity of \begin{math} O(b^m) \end{math} - \textit{Where b is the maximum number of successors of any node and m is the maximum length of any path in the State Space.}
+	
+	\newpage
+		\setlength{\parindent}{0pt} % Default is 15pt
+		\hspace{0pt} \\
+		\textbf{AStarSearch}
+	
+		This Class is where it calculates the Hamming Distance, which is how many tiles are out of place to help solve the 8-puzzle and runs the Search. This uses a PriorityQueue to store the nodes, and compares the current node with the Goal State with the aim for getting the difference to be smaller upon each step. 
+	
+		\setlength{\parindent}{15pt} % Default is 15pt
+		A*Search is an informed Search Method which will be covered more later on in the document.
+	
+		\hspace{0pt} \\
+		\textbf{AStarSearch1}
+	
+		This Class is where the Manhattan Distance heuristic of A* Search is implemented. Again, this uses the priority queue, but instead it calculates the distance each tile is from it's goal place.
+
+		\setlength{\parindent}{15pt} % Default is 15pt
+		A*Search is an informed Search Method which will be covered more later on in the document. 
+	
+		\hspace{0pt} \\
+		\textbf{LoadFile}
+	
+		The LoadFile class sets up the structure for loading in the .txt files for Start State and Goal State. It does this by setting up a temporary value to take in the values from a file, and then returns these values, so when called, values can be added to a specific Array. This way the same load function can be used for both Start State and Goal State.
+	
+	\newpage
+			\subsubsection{Data Structure}
+
+				\textbf{2D Array}
+				\setlength{\parindent}{0pt} % Default is 15pt
+
+				I used 2 2D Arrays to store the Board values of 0-8 for the Start State and the Goal State because they're a fixed size, so there's no worry about changing the length of the array. It can also be used to represent more than one data item of the same type, using the same name, so the Start State and the Goal State can be called in using the Tiles[][] array.
+
+				\hspace{0pt} \\
+				\textbf{ArrayList}
+
+				An ArrayList was used to store the Explored nodes, as ArrayLists don't need a fixed initial size, and there is no way of predicting how many nodes will need to be explored until the solution is found. The only downside to this is sometimes it can be slow with large amounts of data, which may happen, especially using DFS.
+
+				\hspace{0pt} \\
+				\textbf{Queue}
+
+				A queue is needed to implement Breadth-First Search. This is the best method as it enforces the \textit{First In, First Out} order, so we process the parent nodes before any of the child nodes. A Queue is easy to implement, with simple operations such as '.add' and '.remove', and also has peek() and poll() to return data from the Collection.
+
+				\hspace{0pt} \\
+				\textbf{Stack}
+
+				A Stack is used to implement Depth-First Search. This uses the \textit{Last In,First Out} order, so all the child nodes created are explored before exploring the rest of the parent nodes, as needed in Depth-First Search.
+
+				\hspace{0pt} \\
+				\textbf{Priority Queue}
+
+				A Priority Queue is implemented for use within the A*Searches. This takes the one of the highest priority out of the Queue first, so in this case, it's the one with the lowest heuristic, therefore the one closest to the answer.
+	
+	\newpage
+		\subsection{Algorithms}
+	
+			\subsubsection{Breadth-First Search}
+
+				\begin{algorithmic}
+					
+					\WHILE{current node != goal state} \STATE{\STATE Add Start State to checked ArrayList
+				\FOR{int i:=0 to 3} \STATE{\FOR{int j:=0 to 3} \STATE{\IF{Tile in Board = 0} \STATE{\IF{i != 0} \STATE{Move 0 Up \\ Add node to toCheck} \ENDIF} \IF{i != 2} \STATE{Move 0 down \\ Add nodes to toCheck} \ENDIF \IF{j != 0} \STATE{Move 0 left \\ Add node to toCheck} \ENDIF \IF{j != 2} \STATE{Move 0 right \\ Add node to toCheck} \ENDIF \ENDIF} \ENDFOR} \ENDFOR \\ Increase node count \\ \PRINT nodes \\ \IF{Queue is empty and Explored nodes \textgreater   0} \STATE{\PRINT No Solution Found} \ENDIF \\ \PRINT Start State \\ \PRINT Number of Nodes explored \\ \PRINT Number of tile moves \\ \PRINT Last Node \\ \PRINT Goal State}  \ENDWHILE
+				\end{algorithmic}
+
+			\subsubsection{Depth-First Search}
+
+				\begin{algorithmic}
+					\WHILE{current node != goal state} \STATE{\STATE Add Start State to checked ArrayList \FOR{int i:=0 to 3} \STATE{\FOR{int j:=0 to 3} \STATE{\IF{Tile in Board = 0} \STATE{\IF{i != 0} \STATE{Move 0 Up \\  \IF{Node has not been explored} \STATE {Add node to toCheck} \ENDIF} \ENDIF} \IF{i != 2} \STATE{Move 0 down \\  \IF{Node has not been explored} \STATE {Add node to toCheck} \ENDIF} \ENDIF \IF{j != 0} \STATE{Move 0 left \\ \IF{Node has not been explored} \STATE {Add node to toCheck} \ENDIF} \ENDIF \IF{j != 2} \STATE{Move 0 right \\  \IF{Node has not been explored} \STATE {Add node to toCheck} \ENDIF} \ENDIF \ENDIF} \ENDFOR} \ENDFOR \\ Increase node count \\ \PRINT nodes \\ \IF{Queue is empty and Explored nodes \textgreater   0} \STATE{\PRINT No Solution Found} \ENDIF \\ \PRINT Start State \\ \PRINT Number of Nodes explored \\ \PRINT Number of tile moves \\ \PRINT Last Node \\ \PRINT Goal State}  \ENDWHILE
+				\end{algorithmic}
+
+			\subsubsection{A* Search - Hamming \& Manhattan Distance}
+
+				\begin{algorithmic}
+
+					\WHILE{current node != goal state} \STATE{\STATE Add Start State to checked ArrayList \FOR{int i:=0 to 3} \STATE{\FOR{int j:=0 to 3} \STATE{\IF{Tile in Board = 0} \STATE{\IF{i != 0} \STATE{Move 0 Up \\  \IF{Node has not been explored} \STATE {Set Heuristic Number \\ Add node to toCheck} \ENDIF} \ENDIF} \IF{i != 2} \STATE{Move 0 down \\  \IF{Node has not been explored} \STATE {Set Heuristic Number \\ Add node to toCheck} \ENDIF} \ENDIF \IF{j != 0} \STATE{Move 0 left \\ \IF{Node has not been explored} \STATE {Set Heuristic Number \\ Add node to toCheck} \ENDIF} \ENDIF \IF{j != 2} \STATE{Move 0 right \\  \IF{Node has not been explored} \STATE {Set Heuristic Number \\ Add node to toCheck} \ENDIF} \ENDIF \ENDIF} \ENDFOR} \ENDFOR \\ Increase node count \\ \PRINT nodes \\ \IF{Queue is empty and Explored nodes \textgreater   0} \STATE{\PRINT No Solution Found} \ENDIF \\ \PRINT Start State \\ \PRINT Number of Nodes explored \\ \PRINT Number of tile moves \\ \PRINT Last Node \\ \PRINT Goal State}  \ENDWHILE
+
+				\end{algorithmic}
+
+			\subsubsection{A* Search - Hamming Distance Calculating Heuristic}
+				\begin{algorithmic}
+					\FOR{int i:=0 to 3} \STATE{\FOR{int j:=0 to 3} \STATE{\IF{toCheck != 0 and the top value of toCheck = the value of goalBoard} \STATE{Increment Heuristic Number} \ENDIF} \ENDFOR} \ENDFOR \RETURN Heuristic Number
+
+				\end{algorithmic}
+	\newpage 
+			\subsubsection{A* Search - Manhattan Distance Calculating Heuristic}
+
+				\begin{algorithmic}
+					\FOR{int i:=0 to 3} \STATE{\FOR{int j:=0 to 3} \STATE {\FOR{int x:=0 to 3} \STATE{\FOR{int y:=0 to 3} \STATE{\IF{toCheck != 0} \STATE {integer distance = difference between x \& i and difference between y \& j in currentNode and goalBoard} \ENDIF} \ENDFOR} \STATE {Integer total = Heuristic Number + Distance} \ENDFOR} \ENDFOR} \ENDFOR \RETURN Total 
+
+				\end{algorithmic}
+
+	\newpage
+		\subsection{A* Heuristics}
+
+			A* Heuristics are algorithms used for solving problems in an Informed way. It uses 'Best First Search' to consider the lowest cost path first, as this is most likely to lead to the Solution it believes.
+	
+			\subsubsection{A*Search 1 - The Hamming Distance}
+
+				This A* Search heuristic was first presented to us in Lectures, although not named The Hamming Distance at the time. The Hamming Distance is the number of Tiles not in the correct place, so a comparison between the current node being checked and the Goal State needs to be made.
+
+				\setlength{\parindent}{0pt} % Default is 15pt
+				\hspace{0pt} \\
+				\textbf{Admissibility}
+
+				Hamming Distance is entirely admissible as the total number of moves is at least the total number of misplaced tiles at the beginning.
+					
+				\hspace{0pt} \\
+				\textbf{Informedness}
+
+				For testStart2.txt \& testGoal2.txt:
+					\begin{figure}[ht!]
+					\centering
+					\includegraphics[height=20mm]{Images/informedness}
+					\label{overflow}
+					\end{figure}
+	
+			\subsubsection{A*Search 2 - Manhattan Distance}
+
+				This A* Search heuristic was also presented to us in our Lecture, and named as one we should use for solving the 8-Puzzle. This is calculated by the actual distance between where the Tile is in the node, to where it should be in the Goal State using it's Cartesian Coordinates.
+
+				\setlength{\parindent}{0pt} % Default is 15pt
+				\hspace{0pt} \\
+				\textbf{Admissibility}
+
+				Manhatten Distance is admissible also as every tile will have to be moved at least every movement between itself and it's desired destination.
+					
+				\hspace{0pt} \\
+				\textbf{Informedness}
+	
+				For testStart2.txt \& testGoal2.txt:
+					\begin{figure}[ht!]
+					\centering
+					\includegraphics[height=20mm]{Images/informedness}
+					\label{overflow}
+					\end{figure} 
+	
+	\newpage
+		\section{Section 2}
+	
+			\subsection{Testing}
+			
+
+				\subsubsection{Breadth-First Search}
+					\includegraphics[scale = 0.7]{images/bfs.pdf}
+	
+				\subsubsection{Depth-First Search}
+
+					\includegraphics[scale = 0.7]{images/dfs.pdf}
+	
+				\subsubsection{A*Search 1 - Tiles In Place}
+
+					\includegraphics[scale = 0.7]{images/astar1.pdf}
+	
+				\subsubsection{A*Search 2 - Manhattan Distance}
+					\includegraphics[scale = 0.7]{images/astar2.pdf}
+
+
+			\subsection{Analysis of the Results}
+
+				\subsubsection{Breadth-First Search}
+
+					BFS got to the Solution of each of the puzzles relatively quickly as the solution was not too deep within the Queue, especially in the first Test Cases. 429 iterations, on the third Test Case isn't much for the Program, and it's run almost instantly to the human-eye. The downside to BFS is it's Space Complexity as all nodes must be stored, as the Program needs to go back to them later on to explore the child nodes. However it is Optimal and Complete, as it always finds the answer (given the amount of data is finite) and it's Time Complexity of \begin{math} O(b^d) \end{math} is good, where d is the depth of the Shallowest Goal.
+	
+				\subsubsection{Depth-First Search}
+
+					DFS ran slower than BFS as for the second and third Test Case it had to go through more iterations to get to the answer, therefore showing the solution was down a branch further to the right. 120,859 iterations is run in about 4-5mins on my Computer (Mac), so it's slower than the BFS, but it does far more iterations. The Space Complexity for DFS is much better than BFS, as it only needs to store the current branch it's working on at a time, also, if the solution is deep, it may be a lot quicker to the solution than BFS. However, it's time complexity of  \begin{math} O(b^m) \end{math}, where m is the maximum length of path, may have downfalls as if m is much greater than 'd' in BFS's Time Complexity, it takes a lot longer to get to the solution.
+	
+				\subsubsection{A*Search}
+
+					A* Search is both Complete and Optimal if it does not overestimate the true cost of the path to the solution. It's Time Complexity is good, in worst case scenario it's the same as BFS, so for these Test Cases, this is not bad as the solutions aren't too deep. The Space Complexity keeps all nodes in it's memory, in case of repetition, so it can occur that it runs out of Memory before it runs out of time. I did find when testing with special Test Cases I had created myself, that if a solution cannot be found within a certain amount of iterations, then it runs out of memory.
+	
+	\newpage
+			\subsection{Appropriateness of the Search Methods}
+	
+				\subsubsection{Breadth-First Search}
+
+					For this Project, BFS was suitable, as the State Space wasn't too large, so it finds the solution quickly, although taking up a fair bit of Memory, storing all the nodes as it goes. The fact it is Complete and Optimal is a bonus, as we know we'd get the answer eventually, and the best answer at that.
+	
+				\subsubsection{Depth-First Search}
+
+					For this Project, DFS wasn't so good. It did well on Test Case 1, but this was purely coincidence that it happened to be just down the left-most branch, but on the other Test Cases it is significantly slower than the other searches, and needed to check a lot  more nodes, even though the solution wasn't too deep. This shows the Time Complexity has let it down, even though it's Space Complexity may be better than BFS.
+
+				\subsubsection{A* Search}
+		
+					I feel both heuristics I chose for this Project were the Optimal ones for the 8-Puzzle. Their Informedness combined with Time Complexity means the solutions are found extremely quickly, although Space Complexity does let it down slightly, however if the solution is found quickly (as it usually is) this shouldn't be an issue. 
+	
+				\subsubsection{A*Search 1 - Hamming Distance}
+
+					For this Project, Hamming Distance is extremely useful, as it reaches the answer at an optimal rate, with the Time Complexity of \begin{math} O(n) \end{math} where n is the amount of Tiles out of Place. It got to the answer in the Optimal amount of moves as it's well-informed.
+	
+				\subsubsection{A*Search 2 - Manhattan Distance}
+
+					For this Project, Manhattan Distance may have had a downfall in the fact that Tiles cannot go through each other, but must go around each other. With the same Time Complexity as Hamming Distance it's extremely quick to finding the answer.
+
+	\setlength{\parindent}{15pt} % Default is 15pt	
+	\newpage
+				\subsection{Future Improvements}
+					\begin{enumerate}
+
+					\item As a future improvement I would tweak my A*Searches, as they're currently running the same, which is incorrect. They both have the same nodes and amount of tiles moved.
+
+					\item Also I would test it on more Test Cases to ensure it worked sufficiently on more than just the 3 Test Cases.
+
+					\item I would ensure the 'No Solution Found' works always, as currently it's glitchy and doesn't always work.
+
+					\item I would refine my code to stop duplication, as currently the Move Blank method is very similar in all the classes.
+
+					\item Given more time I could implement a bigger/smaller board for different-sized puzzles.
+
+					\item Could implement a GUI for the 8-Puzzle.
+
+					\end{enumerate}
+
+		\section{References}
+
+			\subsection{BFS}
+			\begin{itemize}
+			\item Date Accessed: 18/11/13
+			\item URL: http://www.cs.bu.edu/teaching/c/tree/breadth-first/
+			\item Used for: Research into Breadth-First's use of Queues
+			\end{itemize}
+
+			\subsection{Admissible Heuristics}
+			\begin{itemize}
+			\item Date Accessed: 18/11/13
+			\item URL: http://en.wikipedia.org/wiki/Admissible\_heuristic
+			\item Used for: Research into the Admissibility of A* Searches
+			\end{itemize}
+
+
+			\subsection{Hamming Distance}
+			\begin{itemize}
+			\item Date Accessed: 19/11/13
+			\item URL: http://www.ritambhara.in/hamming-distance/
+			\item Used for: For researching Time Complexity of Hamming Distance
+			\end{itemize}
+	
+	
+\end{document}
